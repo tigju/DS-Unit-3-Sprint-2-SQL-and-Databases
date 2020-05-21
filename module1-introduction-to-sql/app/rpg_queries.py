@@ -7,10 +7,10 @@ DB_FILEPATH = os.path.join(os.path.dirname(
 
 connection = sqlite3.connect(DB_FILEPATH)
 connection.row_factory = sqlite3.Row
-print("CONNECTION:", connection)
+# print("CONNECTION:", connection)
 
 cursor = connection.cursor()
-print("CURSOR", cursor)
+# print("CURSOR", cursor)
 
 # how many characters
 query1 = "SELECT COUNT(DISTINCT character_id) AS number_of_characters FROM charactercreator_character"
