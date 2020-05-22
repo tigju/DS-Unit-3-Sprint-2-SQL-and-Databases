@@ -18,15 +18,15 @@ result1 = cursor.execute(query1).fetchall()
 print("Number of characters: ", result1)
 
 # how many characters of each subclass
-query2 = "SELECT COUNT(DISTINCT Character_ptr_id) AS cleric_number FROM charactercreator_cleric"
+query2 = "SELECT COUNT(DISTINCT character_ptr_id) AS cleric_number FROM charactercreator_cleric"
 result2 = cursor.execute(query2).fetchall()
 print("Number of cleric characters: ", result2)
 
-query3 = "SELECT COUNT(DISTINCT Character_ptr_id) AS fighter_number FROM charactercreator_fighter"
+query3 = "SELECT COUNT(DISTINCT character_ptr_id) AS fighter_number FROM charactercreator_fighter"
 result3 = cursor.execute(query3).fetchall()
 print("Number of fighter characters: ", result3)
 
-query4 = "SELECT COUNT(DISTINCT Character_ptr_id) AS mage_number FROM charactercreator_mage"
+query4 = "SELECT COUNT(DISTINCT character_ptr_id) AS mage_number FROM charactercreator_mage"
 result4 = cursor.execute(query4).fetchall()
 print("Number of mage characters: ", result4)
 
@@ -34,7 +34,7 @@ query5 = "SELECT COUNT(DISTINCT mage_ptr_id) AS necromancer_number FROM characte
 result5 = cursor.execute(query5).fetchall()
 print("Number of necrmancer characters: ", result5)
 
-query6 = "SELECT COUNT(DISTINCT Character_ptr_id) AS thief_number FROM charactercreator_thief"
+query6 = "SELECT COUNT(DISTINCT character_ptr_id) AS thief_number FROM charactercreator_thief"
 result6 = cursor.execute(query6).fetchall()
 print("Number of thief characters: ", result6)
 
@@ -43,3 +43,13 @@ query7 = "SELECT COUNT(DISTINCT item_id) AS number_of_items FROM armory_item"
 result7 = cursor.execute(query7).fetchall()
 print("Number of items: ", result7)
 
+# how many weapon items
+query8 = "SELECT COUNT(DISTINCT item_ptr_id) AS weapon_number FROM armory_weapon"
+result8 = cursor.execute(query8).fetchall()
+print("Number of weapon items: ", result8)
+
+# how many items are not weapons
+
+query9 = "SELECT COUNT(DISTINCT item_id) FROM armory_item WHERE item_id NOT IN (SELECT item_ptr_id FROM armory_weapon)"
+result9 = cursor.execute(query9).fetchall()
+print("Number of non-weapon items: ", result9)
