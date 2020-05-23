@@ -95,8 +95,11 @@ query10 = """
         LIMIT 20;
         """
 result10 = cursor.execute(query10).fetchall()
-print("Number of items each character have: ", dict(result10))
+print("Number of items each character have: ")
+for row in result10:
+    print(row["character_name"], row['item_number'])
 
+# how many weapons each character have
 query11 = """
         SELECT charactercreator_character.name AS character_name,
         count(distinct armory_weapon.item_ptr_id) as weapon_count
@@ -108,16 +111,38 @@ query11 = """
         LIMIT 20;
         """
 result11 = cursor.execute(query11).fetchall()
-print("Number of weapons each character have: ", dict(result11))
+print("Number of weapons each character have: ")
+for row in result11:
+        print(row["character_name"], row['weapon_count'])
 
-# how many items each character have on average
+# Average of items each character has
 query12 = """
-        SELECT charactercreator_character.name AS character_name,
-	    AVG(DISTINCT charactercreator_character_inventory.item_id) AS item_average
-        FROM charactercreator_character_inventory
-        LEFT JOIN charactercreator_character  ON charactercreator_character.character_id = charactercreator_character_inventory.character_id
-        LEFT JOIN armory_item  ON charactercreator_character_inventory.item_id = armory_item.item_id
-        GROUP BY charactercreator_character.character_id
+        SELECT AVG(item_count) AS avg_items
+        FROM (
+	    SELECT 
+		charactercreator_character.character_id,
+		charactercreator_character.name AS character_name,
+		COUNT(DISTINCT armory_item.item_id) AS item_count
+	    FROM charactercreator_character
+	    LEFT JOIN charactercreator_character_inventory ON charactercreator_character.character_id = charactercreator_character_inventory.character_id
+	    LEFT JOIN armory_item ON armory_item.item_id = charactercreator_character_inventory.item_id
+	    GROUP BY 1);
         """
-result12 = cursor.execute(query12).fetchall()
-print("Number of items each character have: ", dict(result12))
+result12 = cursor.execute(query12).fetchone()
+print("Average of items each character have: ", result12[0])
+
+# Average of weapons each character has
+query13 = """
+        SELECT AVG(weapon_count) AS avg_weapons
+        FROM (
+	    SELECT 
+		charactercreator_character.character_id,
+		charactercreator_character.name AS character_name,
+		COUNT(DISTINCT armory_weapon.item_ptr_id) AS weapon_count
+	    FROM charactercreator_character
+	    LEFT JOIN charactercreator_character_inventory ON charactercreator_character.character_id = charactercreator_character_inventory.character_id
+	    LEFT JOIN armory_weapon ON armory_weapon.item_ptr_id = charactercreator_character_inventory.item_id
+	    GROUP BY 1);
+        """
+result13 = cursor.execute(query13).fetchone()
+print("Average of weapons each character have: ", result13[0])
