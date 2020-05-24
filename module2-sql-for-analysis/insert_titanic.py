@@ -88,6 +88,8 @@ cursor.execute(query1)
 for row in cursor.fetchall():
     print(f"people count: {row['num_people']}, average age: {row['avg_age']}, average fare: {row['avg_fare']}, percent of survivals: {row['survival_percent']}")
 
+# output #> people count: 887, average age: 29.4825253664036077, average fare: 32.3054201803833145, percent of survivals: 38.55693348365276212000
+
 query2 = """
         SELECT pclass, survived, sex, 
 	    COUNT(id) AS num_people
@@ -99,3 +101,17 @@ print("Query 2:", query2)
 cursor.execute(query2)
 for row in cursor.fetchall():
     print(f"Pclass: {row['pclass']}, survived: {row['survived']}, sex: {row['sex']}, people_number: {row['num_people']}")
+
+# output 
+#> Pclass: 1, survived: 1, sex: female, people_number: 91
+# Pclass: 1, survived: 1, sex: male, people_number: 45
+# Pclass: 1, survived: 0, sex: male, people_number: 77
+# Pclass: 1, survived: 0, sex: female, people_number: 3
+# Pclass: 2, survived: 1, sex: female, people_number: 70
+# Pclass: 2, survived: 0, sex: male, people_number: 91
+# Pclass: 2, survived: 0, sex: female, people_number: 6
+# Pclass: 2, survived: 1, sex: male, people_number: 17
+# Pclass: 3, survived: 0, sex: male, people_number: 296
+# Pclass: 3, survived: 1, sex: male, people_number: 47
+# Pclass: 3, survived: 0, sex: female, people_number: 72
+# Pclass: 3, survived: 1, sex: female, people_number: 72
