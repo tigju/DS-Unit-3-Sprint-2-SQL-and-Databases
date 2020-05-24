@@ -1,5 +1,4 @@
 import os
-import json
 import psycopg2
 from psycopg2.extras import DictCursor, execute_values
 from dotenv import load_dotenv
@@ -43,7 +42,7 @@ create_table_query = """
                     age INTEGER,
                     siblings_spouses_aboard INTEGER,
                     parents_children_aboard INTEGER,
-                    fare DECIMAL
+                    fare FLOAT
  );
 """
 print("SQL:", create_table_query)
