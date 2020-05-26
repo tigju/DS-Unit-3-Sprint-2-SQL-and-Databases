@@ -25,14 +25,9 @@ print("cursor", cursor)
 titanic_df = pd.read_csv("./titanic.csv")
 
 
-# create enumerated data
-create_types_query = """
-                    CREATE TYPE sex AS ENUM ('male', 'female');
-                    """
-print("Types:", create_types_query)
-cursor.execute(create_types_query)
-
+# first row -> create enumerated data 
 create_table_query = """
+                    CREATE TYPE sex AS ENUM ('male', 'female'); 
                     CREATE TABLE IF NOT EXISTS titanic(
                     id SERIAL PRIMARY KEY,
                     survived INTEGER CHECK (survived>=0 AND survived<=1),
