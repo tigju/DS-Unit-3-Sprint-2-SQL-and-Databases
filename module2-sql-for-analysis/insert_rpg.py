@@ -14,13 +14,13 @@ cursor_sqlite = connection.cursor()
 
 load_dotenv()  # reads contents of the .env file and adds them to the environment
 
-DB_NAME = os.getenv("DB_NAME", default="OOPS")
-DB_USER = os.getenv("DB_USER", default="OOPS")
-DB_PASSWORD = os.getenv("DB_PASSWORD", default="OOPS")
-DB_HOST = os.getenv("DB_HOST", default="OOPS")
+DB_POSTGRES_NAME = os.getenv("DB_POSTGRES_NAME", default="OOPS")
+DB_POSTGRES_USER = os.getenv("DB_POSTGRES_USER", default="OOPS")
+DB_POSTGRES_PASSWORD = os.getenv("DB_POSTGRES_PASSWORD", default="OOPS")
+DB_POSTGRES_HOST = os.getenv("DB_POSTGRES_HOST", default="OOPS")
 
 ## Connect to ElephantSQL-hosted PostgreSQL
-connection2 = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST)
+connection2 = psycopg2.connect(dbname=DB_POSTGRES_NAME, user=DB_POSTGRES_USER, password=DB_POSTGRES_PASSWORD, host=DB_POSTGRES_HOST)
 # print("connection", connection2)
 
 # cursor_pstgr = connection2.cursor() A "cursor", a structure to iterate over db records to perform queries
