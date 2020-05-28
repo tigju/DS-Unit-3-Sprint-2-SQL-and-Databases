@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from sqlalchemy import create_engine
 import pandas as pd
 import pymongo
+import json
 
 load_dotenv()  # reads contents of the .env file and adds them to the environment
 
@@ -28,6 +29,10 @@ print("cursor", cursor)
 client = pymongo.MongoClient(f"mongodb+srv://iuliiastanina:{MONGO_PASS}@cluster0-74vor.mongodb.net/test?retryWrites=true&w=majority")
 rpg_db = client.rpg
 
+# collection = rpg_db.test
+# result = collection.insert_one({'stringy key': [2, 'thing', 3]})
+# print(collection.find_one({'stringy key': [2, 'thing', 3]}))
+
 engine = create_engine('postgres://vvjcyugm:sDTtNJiTs1ebGESvJdEvK_f9v9I9ctmK@ruby.db.elephantsql.com:5432/vvjcyugm', echo=False)
 
 tabnames = ['armory_item', 'armory_weapon', 'charactercreator_character', 'charactercreator_character_inventory', 
@@ -36,19 +41,32 @@ tabnames = ['armory_item', 'armory_weapon', 'charactercreator_character', 'chara
                 'auth_user_user_permissions', 'django_migrations', 'django_admin_log', 
                 'django_session']
 
-dict_of_tables = {}
+# Extract data from postgres
+store_tables = {}
 for table in tabnames:
     query = """
             SELECT * 
             FROM %s
             """ %table
-    dict_of_tables[table] = pd.read_sql_query(query, engine)
+    store_tables[table] = pd.read_sql_query(query, engine)
 
+# print(store_tables['armory_item'])
 
-# print(type(dict_of_tables['armory_item'].to_dict()))
-# result = rpg_db.insert_one(dict_of_tables['armory_item'].to_dict())
+# print(store_tables['armory_item'])
+# result = rpg_db.insert_many(dict_of_tables)
 # print(result)
-
+dict_of_tables = {}
+for table in store_tables:
+    print(store_tables[table])
+    store_tables[table].reset_index(inplace=True) # Reset index
+    dict_of_rows = store_tables[table].to_dict("records")
+    if len(dict_of_rows) > 0:
+        collection = rpg_db[table]
+        result = collection.insert_many(dict_of_rows)
+        print(result)
+    else:
+        collection = rpg_db[table]
+        print(collection)
 
 
 
