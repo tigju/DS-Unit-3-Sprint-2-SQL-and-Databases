@@ -1,12 +1,11 @@
 import os
-import sqlite3
 import psycopg2
 from psycopg2.extras import DictCursor, execute_values
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
 import pandas as pd
 import pymongo
-import json
+
 
 load_dotenv()  # reads contents of the .env file and adds them to the environment
 
@@ -25,7 +24,7 @@ print("connection", connection)
 cursor = connection.cursor(cursor_factory=DictCursor) # to use data as dictionary representation instead of tuples
 print("cursor", cursor)
 
-
+# connect to mongodb 
 client = pymongo.MongoClient(f"mongodb+srv://iuliiastanina:{MONGO_PASS}@cluster0-74vor.mongodb.net/test?retryWrites=true&w=majority")
 rpg_db = client.rpg
 
@@ -33,6 +32,7 @@ rpg_db = client.rpg
 # result = collection.insert_one({'stringy key': [2, 'thing', 3]})
 # print(collection.find_one({'stringy key': [2, 'thing', 3]}))
 
+# use engine to get db data
 engine = create_engine('postgres://vvjcyugm:sDTtNJiTs1ebGESvJdEvK_f9v9I9ctmK@ruby.db.elephantsql.com:5432/vvjcyugm', echo=False)
 
 tabnames = ['armory_item', 'armory_weapon', 'charactercreator_character', 'charactercreator_character_inventory', 
