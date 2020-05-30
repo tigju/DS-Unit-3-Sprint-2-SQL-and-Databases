@@ -74,7 +74,6 @@ result8 = cursor.execute(query8).fetchone()
 print("Number of weapon items: ", result8[0])
 
 # how many items are not weapons
-
 query9 = """
         SELECT COUNT(DISTINCT item_id) 
         FROM armory_item WHERE item_id 
